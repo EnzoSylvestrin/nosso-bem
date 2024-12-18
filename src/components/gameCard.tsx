@@ -1,7 +1,11 @@
+import { HTMLAttributes } from "react";
 import { MagicCard } from "./magic-card"
+import { CardColors } from "@/app/page";
 
-type GameCardProps = {
-    type: "HOT" | "INDIVIDUAL" | "COUPLE"
+export type CardTypes = "HOT" | "INDIVIDUAL" | "COUPLE";
+
+type GameCardProps = HTMLAttributes<HTMLDivElement> & {
+    type: CardTypes
     title: string
     image?: string
 }
@@ -10,18 +14,14 @@ export const GameCard = ({
     type,
     title,
     // image
+    ...props
 }: GameCardProps) => {
-    const colors = {
-        HOT: "hsl(0, 100%, 50%)",
-        INDIVIDUAL: "hsl(216.18556701030928, 81.5126050420168%, 53.333333333333336%)",
-        COUPLE: "hsl(287.79661016949154, 76.62337662337661%, 54.70588235294118%)"
-    }
-
     return (
         <MagicCard
-            className="flex w-full cursor-pointer flex-col items-center justify-center overflow-hidden p-20 shadow-2xl transition-all duration-300 hover:scale-[1.03]"
+            className="flex w-full cursor-pointer flex-col items-center justify-center overflow-hidden px-20 py-40 shadow-2xl transition-all duration-300 hover:scale-[1.03]"
             size={300}
-            borderColor={colors[type]}
+            borderColor={CardColors[type]}
+            {...props}
         >
             <p className="z-10 whitespace-nowrap text-4xl font-medium text-gray-800 dark:text-gray-200">
                 {title}
