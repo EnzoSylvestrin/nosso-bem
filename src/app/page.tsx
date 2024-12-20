@@ -70,30 +70,33 @@ const Home = () => {
                 <OpenAiLogo size={24} color={aiActive ? '#0bb121' : config.theme === 'light' ? '#fff' : '#000'} />
             </div>
             <div className="flex z-[999] w-[80%] items-center justify-center flex-col gap-6 lg:h-[60%] lg:flex-row">
-                {(cardSelected === null || cardSelected === 'HOT') && (
-                    <GameCard
-                        type='HOT'
-                        onClick={() => HandleCardClick('HOT')}
-                        isFlipped={cardSelected === 'HOT'}
-                        isCentered={cardSelected === 'HOT'}
-                    />
-                )}
-                {(cardSelected === null || cardSelected === 'INDIVIDUAL') && (
-                    <GameCard
-                        type='INDIVIDUAL'
-                        onClick={() => HandleCardClick('INDIVIDUAL')}
-                        isFlipped={cardSelected === 'INDIVIDUAL'}
-                        isCentered={cardSelected === 'INDIVIDUAL'}
-                    />
-                )}
-                {(cardSelected === null || cardSelected === 'COUPLE') && (
-                    <GameCard
-                        type='COUPLE'
-                        onClick={() => HandleCardClick('COUPLE')}
-                        isFlipped={cardSelected === 'COUPLE'}
-                        isCentered={cardSelected === 'COUPLE'}
-                    />
-                )}
+                <GameCard
+                    type="HOT"
+                    onClick={() => HandleCardClick("HOT")}
+                    isFlipped={cardSelected === "HOT"}
+                    isCentered={cardSelected === "HOT"}
+                    className={ny(
+                        cardSelected === null || cardSelected === "HOT" ? "opacity-100 visible" : "opacity-0 invisible"
+                    )}
+                />
+                <GameCard
+                    type="INDIVIDUAL"
+                    onClick={() => HandleCardClick("INDIVIDUAL")}
+                    isFlipped={cardSelected === "INDIVIDUAL"}
+                    isCentered={cardSelected === "INDIVIDUAL"}
+                    className={ny(
+                        cardSelected === null || cardSelected === "INDIVIDUAL" ? "opacity-100 visible" : "opacity-0 invisible"
+                    )}
+                />
+                <GameCard
+                    type="COUPLE"
+                    onClick={() => HandleCardClick("COUPLE")}
+                    isFlipped={cardSelected === "COUPLE"}
+                    isCentered={cardSelected === "COUPLE"}
+                    className={ny(
+                        cardSelected === null || cardSelected === "COUPLE" ? "opacity-100 visible" : "opacity-0 invisible"
+                    )}
+                />
             </div>
             {bgAnimation && (
                 <div

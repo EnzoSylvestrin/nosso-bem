@@ -21,7 +21,7 @@ const ConfigContext = createContext<ConfigContextProps | undefined>(undefined);
 
 export const ConfigProvider = ({ children }: { children: ReactNode }) => {
   const [config, setConfigState] = useState<SiteConfig>(() => {
-    const savedConfig = localStorage.getItem('siteConfig');
+    const savedConfig = localStorage ? localStorage.getItem('siteConfig') : null;
     return savedConfig ? JSON.parse(savedConfig) : defaultConfig;
   });
 
