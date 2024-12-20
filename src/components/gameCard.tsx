@@ -4,13 +4,14 @@ import { CardColors } from "@/app/page";
 
 import { useConfig } from "@/context/ConfigProvider";
 
-import { Question } from "@prisma/client";
 import { getHumanQuestion } from "./serverless/getHumanQuestion";
 
 import { Skeleton } from "./skeleton";
 
 import { ny } from "@/lib/utils";
 import { ExclamationMark } from "@phosphor-icons/react";
+import { Question } from "@prisma/client";
+import { getMachineQuestion } from "./serverless/getMachineQuestion";
 
 export type CardTypes = "HOT" | "INDIVIDUAL" | "COUPLE";
 
@@ -69,6 +70,8 @@ export const GameCard = ({
         onClick(e);
 
         if (isFlipped) {
+            setQuestion(null);
+
             return;
         }
 
@@ -76,7 +79,11 @@ export const GameCard = ({
         
         try {
             if (config.useAi) {
-                //TODO: Implement AI
+                const question = await getMachineQuestion({
+                    type,
+                });
+
+                setQuestion(question);
 
                 return;
             }
@@ -142,15 +149,10 @@ export const GameCard = ({
                                 <div className="flex flex-col gap-1">
                                     <Skeleton className="w-64 h-6" />
                                     <Skeleton className="w-64 h-6" />
-                                    <Skeleton className="w-64 h-6" />
-                                    <Skeleton className="w-64 h-6" />
-                                    <Skeleton className="w-64 h-6" />
-                                    <Skeleton className="w-64 h-6" />
-                                    <Skeleton className="w-64 h-6" />
                                 </div>
                             </div>
                         </div>
-                    ): !question ? (
+                    ) : !question ? (
                         <div className="flex items-center justify-center flex-col gap-4 px-4 py-2">
                             <div className="w-16 h-16 flex rounded-full mb-4 items-center justify-center bg-red-600/60">
                                 <ExclamationMark size={30} color="#dc2626" />
@@ -165,11 +167,6 @@ export const GameCard = ({
                             <div className="flex items-center justify-center flex-col gap-4">
                                 <Skeleton className="w-32 h-6" />
                                 <div className="flex flex-col gap-1">
-                                    <Skeleton className="w-64 h-6" />
-                                    <Skeleton className="w-64 h-6" />
-                                    <Skeleton className="w-64 h-6" />
-                                    <Skeleton className="w-64 h-6" />
-                                    <Skeleton className="w-64 h-6" />
                                     <Skeleton className="w-64 h-6" />
                                     <Skeleton className="w-64 h-6" />
                                 </div>
