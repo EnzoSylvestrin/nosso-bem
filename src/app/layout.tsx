@@ -1,7 +1,10 @@
 import type { Metadata } from "next";
+
 import { Afacad_Flux } from "next/font/google";
+
+import { ConfigProvider } from "@/context/ConfigProvider";
+
 import "./globals.css";
-import { ThemeProvider } from "next-themes";
 
 const afacadFlux = Afacad_Flux({
   variable: "--font-afacad-mono",
@@ -23,9 +26,9 @@ export default function RootLayout({
         <body
             className={`${afacadFlux.variable} antialiased`}
         >
-            <ThemeProvider>
+            <ConfigProvider>
                 {children}
-            </ThemeProvider>
+            </ConfigProvider>
         </body>
     </html>
   );
