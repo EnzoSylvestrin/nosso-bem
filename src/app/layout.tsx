@@ -13,6 +13,9 @@ import {
 
 import "./globals.css";
 
+import { Toaster } from "@/components/ui/sonner";
+import { BaseLayout } from "@/components/baseLayout";
+
 const afacadFlux = Afacad_Flux({
     variable: "--font-afacad-mono",
     subsets: ["latin"],
@@ -39,9 +42,12 @@ export default function RootLayout({
                     </SignedOut>
                     <SignedIn>
                         <ConfigProvider>
-                            {children}
+                            <BaseLayout>
+                                {children}
+                            </BaseLayout>
                         </ConfigProvider>
                     </SignedIn>
+                    <Toaster />
                 </body>
             </html>
         </ClerkProvider>

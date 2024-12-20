@@ -6,7 +6,7 @@ import { useConfig } from "@/context/ConfigProvider";
 
 import { getHumanQuestion } from "./serverless/getHumanQuestion";
 
-import { Skeleton } from "./skeleton";
+import { Skeleton } from "./ui/skeleton";
 
 import { ny } from "@/lib/utils";
 import { ExclamationMark } from "@phosphor-icons/react";
