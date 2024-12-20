@@ -25,6 +25,8 @@ const Home = () => {
     const [bgAnimation, setBgAnimation] = useState<CardTypes | ''>('');
     const [isCollapsing, setIsCollapsing] = useState(false);
 
+    const [updateKey, setUpdateKey] = useState(0); // used to force the re-render of the UserButton component
+
     useEffect(() => {
         setColor(config.theme === 'dark' ? '#ffffff' : '#000000')
     }, [config.theme])
@@ -33,12 +35,16 @@ const Home = () => {
         setConfig(({
             theme: config.theme === 'dark' ? 'light' : 'dark'
         }));
+
+        setUpdateKey(prevKey => prevKey + 1);
     }
 
     const HandleChangeAiUse = () => {
         setConfig({
             useAi: !config.useAi
         })
+
+        setUpdateKey(prevKey => prevKey + 1);
     }
 
     const HandleCardClick = (type: CardTypes) => {
@@ -57,8 +63,8 @@ const Home = () => {
         setBgAnimation(type);
     }
 
-    const ThemeIcon = config.theme === 'light' ? <Moon size={16} color='#000' /> : <Sun size={16} color='#000' />
-    const AiIcon = <OpenAiLogo size={16} color={config.useAi ? '#0bb121' : '#000'} />
+    const ThemeIcon = config.theme === 'light' ? <Moon size={14} color='#000' /> : <Sun size={14} color='#000' />
+    const AiIcon = <OpenAiLogo size={15} color={config.useAi ? '#0bb121' : '#000'} />
  
     return (
         <div 
@@ -67,17 +73,14 @@ const Home = () => {
                 config.theme === 'dark' && 'dark',
             )}
         >
-            <div className='absolute top-2 left-2 flex items-center justify-center z-[1000]'>
+            <div key={updateKey} className='absolute top-2 left-2 flex items-center justify-center z-[1000]'>
                 <UserButton appearance={{
                     elements: {
                         userButtonAvatarBox: {
-                            width: '32px',
-                            height: '32px',
+                            width: '34px',
+                            height: '34px',
                         }
                     },
-                    layout: {
-                        shimmer: true
-                    }
                 }}>
                     <UserButton.MenuItems>
                         <UserButton.Action label='Theme' labelIcon={ThemeIcon} onClick={HandleChangeTheme} />
@@ -130,7 +133,7 @@ const Home = () => {
             )}
             <Particles
                 className="absolute inset-0 z-[900]"
-                quantity={100}
+                quantity={300}
                 ease={80}
                 color={color}
                 refresh

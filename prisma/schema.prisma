@@ -8,18 +8,6 @@ datasource db {
     directUrl = env("DIRECT_URL")
 }
 
-model User {
-    id        String     @id @default(cuid())
-    email     String     @unique
-    name      String?
-    image     String?
-    createdAt DateTime   @default(now())
-    updatedAt DateTime   @default(now()) @updatedAt
-    Question  Question[]
-
-    @@map("users")
-}
-
 enum QuestionType {
     HOT
     INDIVIDUAL
@@ -32,16 +20,14 @@ enum QuestionSource {
 }
 
 model Question {
-    id          String         @id @default(cuid())
+    id          Int            @id @default(autoincrement())
     title       String
-    description String?
     type        QuestionType
     source      QuestionSource
-    userId      String?
+    description String?
+    userData    Json?
     createdAt   DateTime       @default(now())
     updatedAt   DateTime       @default(now()) @updatedAt
-
-    user User? @relation(fields: [userId], references: [id])
 
     @@index([type])
     @@map("questions")

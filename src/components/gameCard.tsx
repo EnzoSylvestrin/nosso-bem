@@ -1,6 +1,16 @@
-import { HTMLAttributes, useEffect, useRef, useState } from "react";
+import { HTMLAttributes, MouseEvent, useEffect, useRef, useState } from "react";
+
 import { CardColors } from "@/app/page";
+
+import { useConfig } from "@/context/ConfigProvider";
+
+import { Question } from "@prisma/client";
+import { getHumanQuestion } from "./serverless/getHumanQuestion";
+
+import { Skeleton } from "./skeleton";
+
 import { ny } from "@/lib/utils";
+import { ExclamationMark } from "@phosphor-icons/react";
 
 export type CardTypes = "HOT" | "INDIVIDUAL" | "COUPLE";
 
@@ -14,10 +24,17 @@ export const GameCard = ({
     type,
     isFlipped = false,
     isCentered = false,
+    onClick,
     ...props
 }: GameCardProps) => {
+    const { config } = useConfig();
+
     const cardRef = useRef<HTMLDivElement>(null);
+
+    const [question, setQuestion] = useState<Question | null>(null);
+
     const [translateX, setTranslateX] = useState(0);
+    const [isLoading, setIsLoading] = useState(false);
 
     useEffect(() => {
         if (isCentered && cardRef.current) {
@@ -46,6 +63,38 @@ export const GameCard = ({
             backgroundRepeat: "no-repeat",
           };
 
+    const HandleCardClick = async (e: MouseEvent<HTMLDivElement>) => {
+        if (!onClick) return;
+        
+        onClick(e);
+
+        if (isFlipped) {
+            return;
+        }
+
+        setIsLoading(true);
+        
+        try {
+            if (config.useAi) {
+                //TODO: Implement AI
+
+                return;
+            }
+
+            const question = await getHumanQuestion({
+                type,
+            });
+
+            setQuestion(question);
+        }
+        catch (error) {
+            console.error(error);
+        }
+        finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <div
             ref={cardRef}
@@ -62,8 +111,9 @@ export const GameCard = ({
                     transformStyle: "preserve-3d",
                     ...backgroundStyle,
                 }}
+                onClick={HandleCardClick}
                 {...props}
-                className={`relative w-full h-full transition-transform duration-700 p-20 bg-white dark:bg-gray-800 border-2 border-solid rounded-xl shadow-lg min-h-[600px] ${
+                className={`relative w-full h-full transition-transform duration-700 p-20 bg-white dark:bg-gray-800 border-4 border-solid rounded-xl shadow-lg min-h-[600px] ${
                     isFlipped ? "rotate-y-180" : ""
                 }`}
             >
@@ -77,16 +127,55 @@ export const GameCard = ({
                 />
 
                 <div
-                    className={`absolute inset-0 flex items-center justify-center rotate-y-180 transition-opacity duration-700 ${
+                    className={ny("absolute inset-0 flex items-center justify-center rotate-y-180",
                         isFlipped ? "opacity-100" : "opacity-0"
-                    }`}
+                    )}
                     style={{
                         backfaceVisibility: "hidden",
                     }}
                 >
-                    <p className={ny("z-10 text-2xl font-medium text-gray-800", !isFlipped ? 'opacity-0' : 'opacity-100')}>
-                        Verso do Card
-                    </p>
+                    {isLoading ? (
+                        <div className="flex items-center justify-center flex-col gap-4 px-4 py-2">
+                            <Skeleton className="w-16 h-16 rounded-full mb-4" />
+                            <div className="flex items-center justify-center flex-col gap-4">
+                                <Skeleton className="w-32 h-6" />
+                                <div className="flex flex-col gap-1">
+                                    <Skeleton className="w-64 h-6" />
+                                    <Skeleton className="w-64 h-6" />
+                                    <Skeleton className="w-64 h-6" />
+                                    <Skeleton className="w-64 h-6" />
+                                    <Skeleton className="w-64 h-6" />
+                                    <Skeleton className="w-64 h-6" />
+                                    <Skeleton className="w-64 h-6" />
+                                </div>
+                            </div>
+                        </div>
+                    ): !question ? (
+                        <div className="flex items-center justify-center flex-col gap-4 px-4 py-2">
+                            <div className="w-16 h-16 flex rounded-full mb-4 items-center justify-center bg-red-600/60">
+                                <ExclamationMark size={30} color="#dc2626" />
+                            </div>
+                            <div className="flex items-center justify-center flex-col gap-4">
+                                <p className="text-red-600">Nenhuma questão encontrada!</p>
+                            </div>
+                        </div>
+                    ) : (
+                        <div className="flex items-center justify-center flex-col gap-4 px-4 py-2">
+                            <Skeleton className="w-16 h-16 rounded-full mb-4" />
+                            <div className="flex items-center justify-center flex-col gap-4">
+                                <Skeleton className="w-32 h-6" />
+                                <div className="flex flex-col gap-1">
+                                    <Skeleton className="w-64 h-6" />
+                                    <Skeleton className="w-64 h-6" />
+                                    <Skeleton className="w-64 h-6" />
+                                    <Skeleton className="w-64 h-6" />
+                                    <Skeleton className="w-64 h-6" />
+                                    <Skeleton className="w-64 h-6" />
+                                    <Skeleton className="w-64 h-6" />
+                                </div>
+                            </div>
+                        </div>
+                    )}
                 </div>
             </div>
         </div>
