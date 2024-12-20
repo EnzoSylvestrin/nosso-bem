@@ -9,6 +9,7 @@ import Particles from '@/components/particles'
 import { ny } from '@/lib/utils'
 import { useConfig } from '@/context/ConfigProvider'
 import { OpenAiLogo } from '@phosphor-icons/react'
+import { UserButton } from '@clerk/nextjs'
 
 export const CardColors = {
     HOT: "#fb9a58",
@@ -17,23 +18,27 @@ export const CardColors = {
 }
  
 const Home = () => {
-    const { config, setConfig } = useConfig()
-    const [color, setColor] = useState('#ffffff')
+    const { config, setConfig } = useConfig();
+    const [color, setColor] = useState('#ffffff');
 
     const [cardSelected, setCardSelected] = useState<CardTypes | null>(null);
     const [bgAnimation, setBgAnimation] = useState<CardTypes | ''>('');
     const [isCollapsing, setIsCollapsing] = useState(false);
 
-    const [aiActive, setAiActive] = useState(false)
-    
     useEffect(() => {
         setColor(config.theme === 'dark' ? '#ffffff' : '#000000')
     }, [config.theme])
 
     const HandleChangeTheme = () => {
-        setConfig({
+        setConfig(({
             theme: config.theme === 'dark' ? 'light' : 'dark'
-        });
+        }));
+    }
+
+    const HandleChangeAiUse = () => {
+        setConfig({
+            useAi: !config.useAi
+        })
     }
 
     const HandleCardClick = (type: CardTypes) => {
@@ -51,6 +56,9 @@ const Home = () => {
         setCardSelected(type);
         setBgAnimation(type);
     }
+
+    const ThemeIcon = config.theme === 'light' ? <Moon size={16} color='#000' /> : <Sun size={16} color='#000' />
+    const AiIcon = <OpenAiLogo size={16} color={config.useAi ? '#0bb121' : '#000'} />
  
     return (
         <div 
@@ -59,15 +67,25 @@ const Home = () => {
                 config.theme === 'dark' && 'dark',
             )}
         >
-            <div className='absolute top-2 right-2 p-2 flex items-center justify-center rounded-full bg-black dark:bg-white z-[1000]' onClick={HandleChangeTheme}>
-                {config.theme === 'light' ? (
-                    <Moon size={24} color='#fff' />
-                ): (
-                    <Sun size={24} color='#000' />
-                )}
-            </div>
-            <div className='absolute bottom-2 right-2 p-2 flex items-center justify-center rounded-full bg-black dark:bg-white z-[1000]' onClick={() => setAiActive(!aiActive)}>
-                <OpenAiLogo size={24} color={aiActive ? '#0bb121' : config.theme === 'light' ? '#fff' : '#000'} />
+            <div className='absolute top-2 left-2 flex items-center justify-center z-[1000]'>
+                <UserButton appearance={{
+                    elements: {
+                        userButtonAvatarBox: {
+                            width: '32px',
+                            height: '32px',
+                        }
+                    },
+                    layout: {
+                        shimmer: true
+                    }
+                }}>
+                    <UserButton.MenuItems>
+                        <UserButton.Action label='Theme' labelIcon={ThemeIcon} onClick={HandleChangeTheme} />
+                    </UserButton.MenuItems> 
+                    <UserButton.MenuItems>
+                        <UserButton.Action label='AI' labelIcon={AiIcon} onClick={HandleChangeAiUse} />
+                    </UserButton.MenuItems>
+                </UserButton>
             </div>
             <div className="flex z-[999] w-[80%] items-center justify-center flex-col gap-6 lg:h-[60%] lg:flex-row">
                 <GameCard

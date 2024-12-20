@@ -1,0 +1,48 @@
+generator client {
+    provider = "prisma-client-js"
+}
+
+datasource db {
+    provider  = "postgresql"
+    url       = env("DATABASE_URL")
+    directUrl = env("DIRECT_URL")
+}
+
+model User {
+    id        String     @id @default(cuid())
+    email     String     @unique
+    name      String?
+    image     String?
+    createdAt DateTime   @default(now())
+    updatedAt DateTime   @default(now()) @updatedAt
+    Question  Question[]
+
+    @@map("users")
+}
+
+enum QuestionType {
+    HOT
+    INDIVIDUAL
+    COUPLE
+}
+
+enum QuestionSource {
+    MACHINE
+    HUMAN
+}
+
+model Question {
+    id          String         @id @default(cuid())
+    title       String
+    description String?
+    type        QuestionType
+    source      QuestionSource
+    userId      String?
+    createdAt   DateTime       @default(now())
+    updatedAt   DateTime       @default(now()) @updatedAt
+
+    user User? @relation(fields: [userId], references: [id])
+
+    @@index([type])
+    @@map("questions")
+}
