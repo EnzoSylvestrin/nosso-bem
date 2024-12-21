@@ -16,6 +16,7 @@ import { getMachineQuestion } from "./serverless/getMachineQuestion";
 import Image from "next/image";
 
 import { ny } from "@/lib/utils";
+import { toast } from "sonner";
 
 export type CardTypes = "HOT" | "INDIVIDUAL" | "COUPLE";
 
@@ -103,8 +104,9 @@ export const GameCard = ({
 
             setQuestion(question);
         }
-        catch (error) {
-            console.error(error);
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        catch (error: any) {
+            toast.error(error.message);
         }
         finally {
             setIsLoading(false);

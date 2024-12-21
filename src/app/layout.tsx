@@ -49,7 +49,13 @@ export default function RootLayout({
                             </BaseLayout>
                         </ConfigProvider>
                     </SignedIn>
-                    <Toaster />
+                    <Toaster 
+                        closeButton={true}
+                        duration={4000}
+                        theme="system"
+                        gap={8}
+                        pauseWhenPageIsHidden={true}
+                    />
                 </body>
             </html>
         </ClerkProvider>
