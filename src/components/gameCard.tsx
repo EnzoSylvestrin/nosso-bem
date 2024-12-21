@@ -1,6 +1,6 @@
 import { HTMLAttributes, MouseEvent, useEffect, useRef, useState } from "react";
 
-import { CardColors } from "@/app/page";
+import { CardColors } from "@/constants";
 
 import { useConfig } from "@/context/ConfigProvider";
 

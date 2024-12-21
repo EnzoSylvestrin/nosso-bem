@@ -17,7 +17,7 @@ import { z } from "zod";
 
 import { useForm } from "react-hook-form";
 
-import { CardColors } from "../page";
+import { CardColors } from "@/constants";
 
 import { Textarea } from "@/components/ui/textarea";
 import { ny } from "@/lib/utils";

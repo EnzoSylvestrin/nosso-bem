@@ -4,13 +4,8 @@ import { ny } from '@/lib/utils'
 
 import { CardTypes, GameCard } from '@/components/gameCard'
 import { useState } from 'react'
+import { CardColors } from '@/constants'
 
-export const CardColors = {
-    HOT: "#fb9a58",
-    INDIVIDUAL: "#98b6d8",
-    COUPLE: "#ea8684"
-}
- 
 const Home = () => {
     const [cardSelected, setCardSelected] = useState<CardTypes | null>(null);
     const [bgAnimation, setBgAnimation] = useState<CardTypes | ''>('');
