@@ -6,7 +6,7 @@ import { useConfig } from "@/context/ConfigProvider";
 
 import { Skeleton } from "./ui/skeleton";
 
-import { ExclamationMark } from "@phosphor-icons/react";
+import { QuestionMark } from "@phosphor-icons/react";
 
 import { Question } from "@prisma/client";
 
@@ -154,39 +154,53 @@ export const GameCard = ({
                 >
                     {isLoading ? (
                         <div className="flex items-center justify-center flex-col gap-4 px-4 py-2">
-                            <Skeleton className="w-16 h-16 rounded-full mb-4" />
+                            <Skeleton className="w-24 h-24 rounded-full mb-1" />
                             <div className="flex items-center justify-center flex-col gap-4">
-                                <Skeleton className="w-32 h-6" />
+                                <Skeleton className="w-40 h-12" />
                                 <div className="flex flex-col gap-1">
-                                    <Skeleton className="w-64 h-6" />
-                                    <Skeleton className="w-64 h-6" />
+                                    <Skeleton className="w-64 h-8" />
+                                    <Skeleton className="w-64 h-8" />
                                 </div>
                             </div>
                         </div>
                     ) : !question ? (
                         <div className="flex items-center justify-center flex-col gap-4 px-4 py-2">
-                            <div className="w-16 h-16 flex rounded-full mb-4 items-center justify-center bg-red-600/60">
-                                <ExclamationMark size={30} color="#dc2626" />
+                            <div className="w-24 h-24 flex rounded-full mb-4 items-center justify-center bg-white/60">
+                                <QuestionMark size={60} color={CardColors[type]} />
                             </div>
-                            <div className="flex items-center justify-center flex-col gap-4">
-                                <p className="text-red-600">Nenhuma questão encontrada!</p>
+                            <div className="flex items-center justify-center flex-col gap-5">
+                                <p 
+                                    className="text-center text-3xl"
+                                    style={{
+                                        color: CardColors[type],
+                                    }}
+                                >
+                                    Nenhuma questão encontrada!
+                                </p>
                             </div>
                         </div>
                     ) : (
                         <div className="flex items-center justify-center flex-col gap-4 px-4 py-2 text-gray-900 dark:text-white">
-                            <div className="w-16 h-16 flex rounded-full mb-4 items-center justify-center bg-green-600/60">
+                            <div className="w-24 h-24 flex rounded-full mb-1 items-center justify-center bg-green-600/60">
                                 {question.source === 'MACHINE' ? (
-                                    <Image width={64} height={64} src="/openai-logo.svg" alt="OpenAI" className="w-8 h-8" />
+                                    <Image width={96} height={96} src="/openai-logo.svg" alt="OpenAI" className="w-8 h-8" />
                                 ) : (
-                                    <Image width={64} height={64} src={(question.userData as UserData).image} alt={(question.userData as UserData).name} className="rounded-full" />
+                                    <Image width={96} height={96} src={(question.userData as UserData).image} alt={(question.userData as UserData).name} className="rounded-full" />
                                 )}
                             </div>
-                            <div className="flex items-center justify-center flex-col gap-4">
-                                <p>{question.title}</p>
+                            <div className="flex items-center justify-center flex-col gap-5">
+                                <p
+                                    className="text-center text-3xl"
+                                    style={{
+                                        color: CardColors[type],
+                                    }}
+                                >
+                                    {question.title}
+                                </p>
                                 {
                                     question.description && (
                                         <div className="flex flex-wrap break-words">
-                                            <p>{question.description}</p>
+                                            <p className="text-center text-lg">{question.description}</p>
                                         </div>
                                     )
                                 }
