@@ -6,7 +6,7 @@ import { ConfigProvider } from "@/context/ConfigProvider";
 
 import {
     ClerkProvider,
-    SignInButton,
+    SignIn,
     SignedIn,
     SignedOut,
 } from '@clerk/nextjs'
@@ -38,7 +38,9 @@ export default function RootLayout({
                     className={`${afacadFlux.variable} antialiased`}
                 >
                     <SignedOut>
-                        <SignInButton />
+                        <div className="min-h-screen flex items-center justify-center">
+                            <SignIn routing="hash" />
+                        </div>
                     </SignedOut>
                     <SignedIn>
                         <ConfigProvider>
