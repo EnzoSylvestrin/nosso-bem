@@ -49,14 +49,14 @@ const Home = () => {
  
     return (
         <>
-            <div className="flex z-[999] w-[80%] items-center justify-center flex-col gap-6 lg:h-[60%] lg:flex-row">
+            <div className="flex z-[999] w-[80%] items-center justify-center flex-col gap-6 py-16 lg:h-[60%] xl:flex-row xl:py-0">
                 <GameCard
                     type="HOT"
                     onClick={() => HandleCardClick("HOT")}
                     isFlipped={cardSelected === "HOT"}
                     isCentered={cardSelected === "HOT"}
                     className={ny(
-                        cardSelected === null || cardSelected === "HOT" ? "opacity-100 visible" : "opacity-0 invisible"
+                        cardSelected === null || cardSelected === "HOT" ? "xl:opacity-100 xl:visible" : "hidden xl:opacity-0 xl:invisible xl:flex"
                     )}
                 />
                 <GameCard
@@ -65,7 +65,7 @@ const Home = () => {
                     isFlipped={cardSelected === "INDIVIDUAL"}
                     isCentered={cardSelected === "INDIVIDUAL"}
                     className={ny(
-                        cardSelected === null || cardSelected === "INDIVIDUAL" ? "opacity-100 visible" : "opacity-0 invisible"
+                        cardSelected === null || cardSelected === "INDIVIDUAL" ? "xl:opacity-100 xl:visible" : "hidden xl:opacity-0 xl:invisible xl:flex"
                     )}
                 />
                 <GameCard
@@ -74,7 +74,7 @@ const Home = () => {
                     isFlipped={cardSelected === "COUPLE"}
                     isCentered={cardSelected === "COUPLE"}
                     className={ny(
-                        cardSelected === null || cardSelected === "COUPLE" ? "opacity-100 visible" : "opacity-0 invisible"
+                        cardSelected === null || cardSelected === "COUPLE" ? "xl:opacity-100 xl:visible" : "hidden xl:opacity-0 xl:invisible xl:flex"
                     )}
                 />
             </div>
