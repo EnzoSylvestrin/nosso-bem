@@ -1,6 +1,6 @@
 'use client';
 
-import { MouseEvent, ReactNode, useEffect, useState } from "react"
+import { ReactNode, useEffect, useState } from "react"
 
 import { UserButton } from "@clerk/nextjs"
 
@@ -58,9 +58,7 @@ export const BaseLayout = ({
         return 'default';
     };
 
-    const handleChangeTab = (e: MouseEvent<HTMLButtonElement>, tabValue: string) => {
-        e.stopPropagation();
-
+    const handleChangeTab = (tabValue: string) => {
         if (tabValue === 'home') {
             router.push('/');
         } else if (tabValue === 'question') {
@@ -73,8 +71,8 @@ export const BaseLayout = ({
     const ThemeIcon = config.theme === 'light' ? <Moon size={14} color='#000' /> : <Sun size={14} color='#000' />
     const AiIcon = <OpenAiLogo size={15} color={config.useAi ? '#0bb121' : '#000'} />
 
-    const HomeIconColor = tabValue === 'home' ? config.theme === 'light' ? '#000' : '#fff' : config.theme === 'light' ? '#fff' : '#000';
-    const QuestionIconColor = tabValue === 'question' ? config.theme === 'light' ? '#000' : '#fff' : config.theme === 'light' ? '#fff' : '#000';
+    const HomeIconColor = config.theme === 'light' ? '#fff' : '#000';
+    const QuestionIconColor = config.theme === 'light' ? '#fff' : '#000';
 
     return (
         <div 
@@ -100,13 +98,13 @@ export const BaseLayout = ({
                     </UserButton.MenuItems>
                 </UserButton>
             </div>
-            <Tabs defaultValue={getDefaultTabValue()}>
+            <Tabs defaultValue={tabValue}>
                 <div className='absolute top-2 right-2 z-[1000]'>
                     <TabsList className="bg-black dark:bg-white">
-                        <TabsTrigger value="home" className="data-[state=active]:bg-white dark:data-[state=active]:bg-black" onClick={(e) => handleChangeTab(e, 'home')}>
+                        <TabsTrigger value="home" className="data-[state=active]:bg-gray-600 dark:data-[state=active]:bg-gray-300" onClick={() => handleChangeTab('home')}>
                             <HomeIcon size={20} color={HomeIconColor} />
                         </TabsTrigger>
-                        <TabsTrigger value="question" className="data-[state=active]:bg-white dark:data-[state=active]:bg-black" onClick={(e) => handleChangeTab(e, 'question')}>
+                        <TabsTrigger value="question" className="data-[state=active]:bg-gray-600 dark:data-[state=active]:bg-gray-300" onClick={() => handleChangeTab('question')}>
                             <Plus size={20} color={QuestionIconColor} />
                         </TabsTrigger>
                     </TabsList>

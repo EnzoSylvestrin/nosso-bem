@@ -25,7 +25,7 @@ model Question {
     type        QuestionType
     source      QuestionSource
     description String?
-    userData    Json?
+    userData    Json?          @default("{}")
     createdAt   DateTime       @default(now())
     updatedAt   DateTime       @default(now()) @updatedAt
 

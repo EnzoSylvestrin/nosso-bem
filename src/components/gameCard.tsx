@@ -4,14 +4,18 @@ import { CardColors } from "@/app/page";
 
 import { useConfig } from "@/context/ConfigProvider";
 
-import { getHumanQuestion } from "./serverless/getHumanQuestion";
-
 import { Skeleton } from "./ui/skeleton";
 
-import { ny } from "@/lib/utils";
 import { ExclamationMark } from "@phosphor-icons/react";
+
 import { Question } from "@prisma/client";
+
+import { getHumanQuestion } from "./serverless/getHumanQuestion";
 import { getMachineQuestion } from "./serverless/getMachineQuestion";
+
+import Image from "next/image";
+
+import { ny } from "@/lib/utils";
 
 export type CardTypes = "HOT" | "INDIVIDUAL" | "COUPLE";
 
@@ -20,6 +24,11 @@ type GameCardProps = HTMLAttributes<HTMLDivElement> & {
     isFlipped?: boolean;
     isCentered?: boolean;
 };
+
+type UserData = {
+    image: string;
+    name: string;
+}
 
 export const GameCard = ({
     type,
@@ -162,14 +171,23 @@ export const GameCard = ({
                             </div>
                         </div>
                     ) : (
-                        <div className="flex items-center justify-center flex-col gap-4 px-4 py-2">
-                            <Skeleton className="w-16 h-16 rounded-full mb-4" />
+                        <div className="flex items-center justify-center flex-col gap-4 px-4 py-2 text-gray-900 dark:text-white">
+                            <div className="w-16 h-16 flex rounded-full mb-4 items-center justify-center bg-green-600/60">
+                                {question.source === 'MACHINE' ? (
+                                    <Image width={64} height={64} src="/openai-logo.svg" alt="OpenAI" className="w-8 h-8" />
+                                ) : (
+                                    <Image width={64} height={64} src={(question.userData as UserData).image} alt={(question.userData as UserData).name} className="rounded-full" />
+                                )}
+                            </div>
                             <div className="flex items-center justify-center flex-col gap-4">
-                                <Skeleton className="w-32 h-6" />
-                                <div className="flex flex-col gap-1">
-                                    <Skeleton className="w-64 h-6" />
-                                    <Skeleton className="w-64 h-6" />
-                                </div>
+                                <p>{question.title}</p>
+                                {
+                                    question.description && (
+                                        <div className="flex flex-wrap break-words">
+                                            <p>{question.description}</p>
+                                        </div>
+                                    )
+                                }
                             </div>
                         </div>
                     )}
