@@ -116,7 +116,7 @@ export const GameCard = ({
     return (
         <div
             ref={cardRef}
-            className={ny("relative flex w-full min-w-[400px] max-w-[400px] min-h-[600px] h-full cursor-pointer transition-transform duration-700",
+            className={ny("relative flex w-full min-w-[320px] max-w-[320px] min-h-[300px] h-full cursor-pointer transition-transform duration-700 sm:min-w-[400px] sm:max-w-[400px] sm:min-h-[600px]",
                 props.className,
             )}
             style={{

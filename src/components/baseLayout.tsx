@@ -77,7 +77,7 @@ export const BaseLayout = ({
     return (
         <div 
             className={ny(
-                "bg-background relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden md:shadow-xl",
+                "px-4 bg-background relative flex min-h-screen w-full flex-col items-center justify-center overflow-hidden md:shadow-xl",
                 config.theme === 'dark' && 'dark',
             )}
         >
