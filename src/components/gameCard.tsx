@@ -6,7 +6,7 @@ import { useConfig } from "@/context/ConfigProvider";
 
 import { Skeleton } from "./ui/skeleton";
 
-import { QuestionMark } from "@phosphor-icons/react";
+import { QuestionMark, Trash } from "@phosphor-icons/react";
 
 import { Question } from "@prisma/client";
 
@@ -17,6 +17,7 @@ import Image from "next/image";
 
 import { ny } from "@/lib/utils";
 import { toast } from "sonner";
+import { DeleteQuestion } from "./serverless/deleteQuestion";
 
 export type CardTypes = "HOT" | "INDIVIDUAL" | "COUPLE";
 
@@ -24,6 +25,7 @@ type GameCardProps = HTMLAttributes<HTMLDivElement> & {
     type: CardTypes;
     isFlipped?: boolean;
     isCentered?: boolean;
+    ref: React.Ref<HTMLDivElement>;
 };
 
 type UserData = {
@@ -36,6 +38,7 @@ export const GameCard = ({
     isFlipped = false,
     isCentered = false,
     onClick,
+    ref,
     ...props
 }: GameCardProps) => {
     const { config } = useConfig();
@@ -85,6 +88,10 @@ export const GameCard = ({
             return;
         }
 
+        SelectQuestion();
+    }
+
+    const SelectQuestion = async () => {
         setIsLoading(true);
         
         try {
@@ -113,6 +120,33 @@ export const GameCard = ({
         }
     }
 
+    const HandleDeleteCard = async (e: MouseEvent<HTMLDivElement>) => {
+        if (!question) return;
+
+        e.stopPropagation();
+
+        setIsLoading(true);
+
+        try {
+            await DeleteQuestion({
+                questionId: question.id,
+            });
+
+            setQuestion(null);
+
+            toast.success("Questão deletada com sucesso!");
+
+            SelectQuestion();
+        }
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        catch (error: any) {
+            toast.error(error.message);
+        }
+        finally {
+            setIsLoading(false);
+        }
+    }
+
     return (
         <div
             ref={cardRef}
@@ -131,10 +165,16 @@ export const GameCard = ({
                 }}
                 onClick={HandleCardClick}
                 {...props}
+                ref={ref}
                 className={`relative w-full h-full transition-transform duration-700 p-20 bg-white dark:bg-gray-800 border-4 border-solid rounded-xl shadow-lg min-h-[600px] ${
                     isFlipped ? "rotate-y-180" : ""
                 }`}
             >
+                {!isLoading && question &&
+                    <div className="flex absolute items-center justify-between top-1 left-2 cursor-pointer z-[1001] bg-white p-2 rounded-full" onClick={HandleDeleteCard}>
+                        <Trash size={24} color="#da4040"/>
+                    </div>
+                }
                 <div
                     className={`absolute inset-0 flex items-center justify-center transition-opacity duration-700 ${
                         isFlipped ? "opacity-0" : "opacity-100"

@@ -113,7 +113,7 @@ export const BaseLayout = ({
             {children}
             <Particles
                 className="absolute inset-0 z-[900]"
-                quantity={300}
+                quantity={400}
                 ease={80}
                 color={color}
                 refresh

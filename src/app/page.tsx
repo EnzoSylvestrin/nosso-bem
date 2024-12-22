@@ -1,6 +1,6 @@
 'use client'
  
-import { useState } from 'react'
+import { useRef, useState } from 'react'
 
 import { Dice2, Dice1, Dice3, Dice4, Dice5, Dice6 } from 'lucide-react'
 
@@ -14,6 +14,11 @@ import { QuestionType } from '@prisma/client'
 import { ny } from '@/lib/utils'
 
 const Home = () => {
+    const HotCard = useRef<HTMLDivElement>(null);
+    const IndividualCard = useRef<HTMLDivElement>(null);
+    const CoupleCard = useRef<HTMLDivElement>(null);
+
+
     const { config } = useConfig();
 
     const [diceNumber, setDiceNumber] = useState(1);
@@ -42,7 +47,16 @@ const Home = () => {
         const randomDice = Math.floor(Math.random() * 6);
         setDiceNumber(randomDice);
         const type = Object.keys(QuestionType)[randomCard] as CardTypes;
-        HandleCardClick(type);
+
+        if (type === 'HOT') {
+            HotCard.current?.click();
+        }
+        else if (type === 'INDIVIDUAL') {
+            IndividualCard.current?.click();
+        }
+        else {
+            CoupleCard.current?.click();
+        }
     }
 
     const DiceIcon = diceNumber === 1 ? Dice1 : diceNumber === 2 ? Dice2 : diceNumber === 3 ? Dice3 : diceNumber === 4 ? Dice4 : diceNumber === 5 ? Dice5 : Dice6;
@@ -51,6 +65,7 @@ const Home = () => {
         <>
             <div className="flex z-[999] w-[80%] items-center justify-center flex-col gap-6 py-16 lg:h-[60%] xl:flex-row xl:py-0">
                 <GameCard
+                    ref={HotCard}
                     type="HOT"
                     onClick={() => HandleCardClick("HOT")}
                     isFlipped={cardSelected === "HOT"}
@@ -60,6 +75,7 @@ const Home = () => {
                     )}
                 />
                 <GameCard
+                    ref={IndividualCard}
                     type="INDIVIDUAL"
                     onClick={() => HandleCardClick("INDIVIDUAL")}
                     isFlipped={cardSelected === "INDIVIDUAL"}
@@ -69,6 +85,7 @@ const Home = () => {
                     )}
                 />
                 <GameCard
+                    ref={CoupleCard}
                     type="COUPLE"
                     onClick={() => HandleCardClick("COUPLE")}
                     isFlipped={cardSelected === "COUPLE"}
