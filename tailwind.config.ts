@@ -9,6 +9,10 @@ export default {
     ],
     theme: {
         extend: {
+            fontFamily: {
+                sans: ['var(--font-montserrat-mono)'],
+                mono: ['var(--font-tannimbus-mono)'],
+            },
             colors: {
                 background: 'hsl(var(--background))',
                 foreground: 'hsl(var(--foreground))',

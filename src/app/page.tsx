@@ -80,7 +80,7 @@ const Home = () => {
             </div>
             {
                 cardSelected === null &&
-                <div className='absolute bottom-2 right-2 rounded-full flex items-center justify-center z-[1000] p-3 bg-black dark:bg-white' onClick={HandleRandomCardClick}>
+                <div className='absolute bottom-2 right-2 rounded-full flex items-center justify-center z-[1000] cursor-pointer p-3 bg-black dark:bg-white' onClick={HandleRandomCardClick}>
                     <DiceIcon size={24} color={config.theme === 'light' ? '#fff' : '#000'} />
                 </div>
             }

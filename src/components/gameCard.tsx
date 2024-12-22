@@ -180,17 +180,17 @@ export const GameCard = ({
                             </div>
                         </div>
                     ) : (
-                        <div className="flex items-center justify-center flex-col gap-4 px-4 py-2 text-gray-900 dark:text-white">
-                            <div className="w-24 h-24 flex rounded-full mb-1 items-center justify-center bg-green-600/60">
+                        <div className="flex items-center justify-center flex-col gap-4 px-4 py-2">
+                            <div className="max-w-24 max-h-24 flex rounded-full mb-1 items-center justify-center bg-green-600/60">
                                 {question.source === 'MACHINE' ? (
                                     <Image width={96} height={96} src="/openai-logo.svg" alt="OpenAI" className="w-8 h-8" />
                                 ) : (
-                                    <Image width={96} height={96} src={(question.userData as UserData).image} alt={(question.userData as UserData).name} className="rounded-full" />
+                                    <Image width={96} height={96} src={(question.userData as UserData).image} alt={(question.userData as UserData).name} className="rounded-full max-h-24" />
                                 )}
                             </div>
                             <div className="flex items-center justify-center flex-col gap-5">
                                 <p
-                                    className="text-center text-3xl"
+                                    className="text-center text-3xl font-mono"
                                     style={{
                                         color: CardColors[type],
                                     }}
@@ -199,7 +199,7 @@ export const GameCard = ({
                                 </p>
                                 {
                                     question.description && (
-                                        <div className="flex flex-wrap break-words">
+                                        <div className="flex flex-wrap break-words font-sans px-12 font-bold text-gray-900">
                                             <p className="text-center text-lg">{question.description}</p>
                                         </div>
                                     )

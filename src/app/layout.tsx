@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
 
-import { Afacad_Flux } from "next/font/google";
+import { Montserrat } from "next/font/google";
 
 import { ConfigProvider } from "@/context/ConfigProvider";
 
@@ -16,9 +16,17 @@ import "./globals.css";
 import { Toaster } from "@/components/ui/sonner";
 import { BaseLayout } from "@/components/baseLayout";
 
-const afacadFlux = Afacad_Flux({
-    variable: "--font-afacad-mono",
+import localFont from 'next/font/local'
+
+const montserrat = Montserrat({
+    variable: "--font-montserrat-mono",
     subsets: ["latin"],
+});
+
+const tannimbus = localFont({
+    src: '../assets/tannimbus.otf',
+    variable: '--font-tannimbus-mono',
+    display: 'swap',
 });
 
 export const metadata: Metadata = {
@@ -35,7 +43,7 @@ export default function RootLayout({
         <ClerkProvider>
             <html lang="pt">
                 <body
-                    className={`${afacadFlux.variable} antialiased`}
+                    className={`${montserrat.variable} ${tannimbus.variable} antialiased`}
                 >
                     <SignedOut>
                         <div className="min-h-screen flex items-center justify-center">
