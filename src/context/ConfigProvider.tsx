@@ -5,6 +5,11 @@ import { createContext, useContext, useState, useEffect, ReactNode } from 'react
 export type SiteConfig = {
     theme: 'light' | 'dark';
     useAi: boolean;
+    randomChances: {
+        HOT: number;
+        COUPLE: number;
+        INDIVIDUAL: number;
+    }
 }
 
 interface ConfigContextProps {
@@ -15,6 +20,11 @@ interface ConfigContextProps {
 const defaultConfig: SiteConfig = {
     theme: 'light',
     useAi: false,
+    randomChances: {
+        HOT: 0.33,
+        COUPLE: 0.33,
+        INDIVIDUAL: 0.33,
+    }
 };
 
 const ConfigContext = createContext<ConfigContextProps | undefined>(undefined);

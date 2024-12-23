@@ -43,6 +43,8 @@ export const GameCard = ({
 }: GameCardProps) => {
     const { config } = useConfig();
 
+    const [usedQuestionIds, setUsedQuestionIds] = useState<number[]>([]);
+
     const cardRef = useRef<HTMLDivElement>(null);
 
     const [question, setQuestion] = useState<Question | null>(null);
@@ -82,6 +84,8 @@ export const GameCard = ({
         
         onClick(e);
 
+        setIsLoading(true);
+
         if (isFlipped) {
             setQuestion(null);
 
@@ -92,8 +96,6 @@ export const GameCard = ({
     }
 
     const SelectQuestion = async () => {
-        setIsLoading(true);
-        
         try {
             if (config.useAi) {
                 const question = await getMachineQuestion({
@@ -107,8 +109,11 @@ export const GameCard = ({
 
             const question = await getHumanQuestion({
                 type,
+                excludeIds: usedQuestionIds,
             });
-
+            
+            if (question) setUsedQuestionIds([...usedQuestionIds, question.id]);
+            
             setQuestion(question);
         }
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -141,9 +146,6 @@ export const GameCard = ({
         // eslint-disable-next-line @typescript-eslint/no-explicit-any
         catch (error: any) {
             toast.error(error.message);
-        }
-        finally {
-            setIsLoading(false);
         }
     }
 
