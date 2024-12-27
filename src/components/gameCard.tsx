@@ -172,7 +172,7 @@ export const GameCard = ({
                     isFlipped ? "rotate-y-180" : ""
                 }`}
             >
-                {!isLoading && question &&
+                {!isLoading && question && isFlipped &&
                     <div className="flex absolute items-center justify-between top-1 left-2 cursor-pointer z-[1001] bg-white p-2 rounded-full" onClick={HandleDeleteCard}>
                         <Trash size={24} color="#da4040"/>
                     </div>
